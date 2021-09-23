@@ -1,5 +1,6 @@
 package com.dh.clinica.controller;
 
+import com.dh.clinica.exceptions.BadRequestException;
 import com.dh.clinica.model.Turno;
 import com.dh.clinica.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RelationServiceNotRegisteredException;
 import java.util.List;
 
 @RestController
@@ -27,16 +29,8 @@ public class TurnoController {
     }
 
     @PostMapping
-    public ResponseEntity<Turno> registrarTurno(@RequestBody Turno turno) {
-        ResponseEntity<Turno> response;
-        if (pacienteService.obtener(turno.getPaciente().getId()).isPresent()&& odontologoService.obtener(turno.getOdontologo().getId()).isPresent())
-            response = ResponseEntity.ok(turnoService.guardar(turno));
-
-        else
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
-        return response;
-
+    public ResponseEntity<Turno> registrarTurno(@RequestBody Turno turno) throws BadRequestException{
+        return ResponseEntity.ok(turnoService.guardar(turno));
 
     }
 
@@ -63,5 +57,9 @@ public class TurnoController {
 
     }
 
+    @ExceptionHandler({BadRequestException.class})
+    public ResponseEntity<String> procesarErrorBadRequest(BadRequestException ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 
 }

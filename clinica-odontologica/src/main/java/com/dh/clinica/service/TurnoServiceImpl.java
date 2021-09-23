@@ -1,5 +1,6 @@
 package com.dh.clinica.service;
 
+import com.dh.clinica.exceptions.BadRequestException;
 import com.dh.clinica.model.Turno;
 import com.dh.clinica.repository.TurnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,11 @@ public class TurnoServiceImpl implements TurnoService {
     }
 
     @Override
-    public Turno guardar(Turno turno) {
+    public Turno guardar(Turno turno) throws BadRequestException{
+        if(turno.getOdontologo().getId() ==null || turno.getPaciente().getId()==null){
+            throw new BadRequestException("No existe el odontologo/ paciente requerido");
+        }
         return turnoRepository.save(turno);
-
     }
 
     @Override
