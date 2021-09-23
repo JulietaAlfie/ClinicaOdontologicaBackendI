@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table
@@ -21,6 +22,9 @@ public class Paciente {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "domicilio_id")
     private Domicilio domicilio;
+
+    @OneToMany(mappedBy="paciente")
+    private Set<Turno> turnos;
 
     public Paciente() {
     }

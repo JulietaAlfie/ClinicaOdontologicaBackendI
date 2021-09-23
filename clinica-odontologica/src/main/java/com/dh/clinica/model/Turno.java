@@ -11,10 +11,10 @@ public class Turno {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "turno_sequence")
     private Integer id;
     @ManyToOne
-    @JoinColumn(name="paciente_id")
+    @JoinColumn(name="paciente_id", nullable = false)
     private Paciente paciente;
     @ManyToOne
-    @JoinColumn(name="odontologo_id")
+    @JoinColumn(name="odontologo_id", nullable = false)
     private Odontologo odontologo;
     private Date date;
 
