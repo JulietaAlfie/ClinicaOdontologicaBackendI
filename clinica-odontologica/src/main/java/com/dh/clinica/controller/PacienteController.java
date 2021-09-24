@@ -1,5 +1,6 @@
 package com.dh.clinica.controller;
 
+import com.dh.clinica.exceptions.ResourceNotFoundException;
 import com.dh.clinica.model.Paciente;
 import com.dh.clinica.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class PacienteController {
 
     @PutMapping()
     public ResponseEntity<Paciente> actualizar(@RequestBody Paciente paciente) {
-        ResponseEntity<Paciente> response = null;
+        ResponseEntity<Paciente> response;
 
         if (paciente.getId() != null && pacienteService.obtener(paciente.getId()).isPresent())
             response = ResponseEntity.ok(pacienteService.actualizar(paciente));
@@ -48,17 +49,10 @@ public class PacienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminar(@PathVariable Integer id) {
-        ResponseEntity<String> response = null;
+    public ResponseEntity<String> eliminar(@PathVariable Integer id) throws ResourceNotFoundException {
+                pacienteService.eliminar(id);
+          return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Eliminado");
 
-        if (pacienteService.obtener(id).isPresent()) {
-            pacienteService.eliminar(id);
-            response = ResponseEntity.status(HttpStatus.NO_CONTENT).body("Eliminado");
-        } else {
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        return response;
     }
 
     @GetMapping
