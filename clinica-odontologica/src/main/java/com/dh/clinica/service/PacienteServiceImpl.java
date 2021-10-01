@@ -17,7 +17,7 @@ public class PacienteServiceImpl implements PacienteService{
     @Autowired
     public PacienteServiceImpl(PacienteRepository pacienteRepository, DomicilioServiceImpl domicilioService){
         this.pacienteRepository = pacienteRepository;
-    this.domicilioService = domicilioService;
+        this.domicilioService = domicilioService;
     }
 
     @Override
@@ -26,21 +26,21 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Override
-    public Optional<Paciente> obtener(Integer id) {
-        return pacienteRepository.findById(id);
+    public Paciente obtener(Integer id) {
+        return pacienteRepository.getById(id);
     }
 
     @Override
     public Paciente guardar(Paciente paciente) {
         paciente.setDomicilio(domicilioService.guardar(paciente.getDomicilio()));
-       return pacienteRepository.save(paciente);
+        return pacienteRepository.save(paciente);
 
     }
 
     @Override
     public void eliminar(Integer id) throws ResourceNotFoundException {
-        if(obtener(id).isEmpty())
-            throw  new ResourceNotFoundException("No existe paciente con id: "+id);
+//        if(obtener(id).isEmpty())
+//            throw  new ResourceNotFoundException("No existe paciente con id: "+id);
         pacienteRepository.deleteById(id);
     }
 

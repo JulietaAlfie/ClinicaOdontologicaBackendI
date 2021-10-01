@@ -3,13 +3,16 @@ package com.dh.clinica.service;
 import com.dh.clinica.exceptions.BadRequestException;
 import com.dh.clinica.exceptions.ResourceNotFoundException;
 import com.dh.clinica.model.Turno;
+import com.dh.clinica.model.TurnoDTO;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public interface TurnoService {
-    List<Turno> obtenerTodos();
-    Optional<Turno> obtener(Integer id);
-    Turno guardar(Turno turno) throws BadRequestException;
+    Collection<TurnoDTO> obtenerTodos();
+    TurnoDTO obtener(Integer id);
+    void guardar(TurnoDTO turnoDTO) throws BadRequestException;
     void eliminar(Integer id) throws ResourceNotFoundException;
-    Turno actualizar(Turno turno);
+    void actualizar(TurnoDTO turnoDTO);
 }

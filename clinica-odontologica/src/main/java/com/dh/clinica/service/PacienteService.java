@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface PacienteService {
     List<Paciente> obtenerTodos();
-    Optional<Paciente> obtener(Integer id);
+    Paciente obtener(Integer id);
     Paciente guardar(Paciente paciente);
     void eliminar(Integer id) throws ResourceNotFoundException;
     Paciente actualizar(Paciente paciente);
